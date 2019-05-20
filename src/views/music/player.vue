@@ -147,6 +147,9 @@
         padding: 0;
     }
     .comment {
+        ul {
+            height: 50vh;
+        }
         li {
             padding: 10px 20px;
             &>p {
