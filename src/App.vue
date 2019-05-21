@@ -4,7 +4,10 @@
             <!--      <router-link to="/">Home</router-link> |-->
             <!--      <router-link to="/user">User</router-link> |-->
             <!--      <router-link to="/music">Music</router-link>-->
-            <router-view @music="music" @playMusic="playMusic" :isPlay="isPlay"/>
+            <router-view @music="music"
+                         @playMusic="playMusic"
+                         @pauseMusic="pauseMusic"
+                         :isPlay="isPlay" :playTime="playTime"/>
             <audio :src="src" id="global-player" ref="global-player"></audio>
         </div>
 
@@ -18,7 +21,8 @@
                 musicInfo: {},
                 src: '',
                 player: '',
-                isPlay: false
+                isPlay: false,
+                playTime: 0
             }
         },
         methods: {
@@ -33,19 +37,23 @@
                     })
             },
             playMusic() {
-                return this.player.play()
+                this.player.play();
+                this.isPlay = true;
             },
             pauseMusic() {
-                return this.player.pause()
+                this.player.pause();
+                this.isPlay = false;
             }
         },
         mounted() {
             this.player = this.$refs['global-player'];
             let vm = this;
             this.player.addEventListener('canplay', function () {
-                vm.playMusic().then(() => {
-                    this.isPlay = true;
-                })
+                vm.playMusic();
+                vm.isPlay = true;
+            });
+            this.player.addEventListener('timeupdate', function () {
+                vm.playTime = parseInt(this.currentTime);
             })
         }
     }

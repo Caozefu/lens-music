@@ -10,7 +10,7 @@
             <span class="share"></span>
         </div>
         <div class="pic">
-            <div>
+            <div :class="[isPlay ? 'play' : 'pause']">
                 <img :src="musicInfo.album.picUrl" alt="">
             </div>
         </div>
@@ -22,7 +22,7 @@
             <span></span>
         </div>
         <div class="music-time-control">
-            <span class="start-time">00:00</span>
+            <span class="start-time">{{getPlayTime}}</span>
             <div class="time-line">
                 <span class="line"></span>
             </div>
@@ -44,7 +44,8 @@
     export default {
         name: "new-player",
         props: {
-            isPlay: Boolean
+            isPlay: Boolean,
+            playTime: Number
         },
         data() {
             return {
@@ -55,7 +56,13 @@
         },
         watch: {
             isPlay(val) {
-                console.log(val);
+            }
+        },
+        computed: {
+            getPlayTime() {
+                let min = parseInt(this.playTime / 60);
+                let sec = min > 0 ? this.playTime - min * 60 : this.playTime;
+                return (min >= 10 ? min : '0' + min) + ':' + (sec >= 10 ? sec : '0' + sec);
             }
         },
         methods: {
@@ -69,12 +76,8 @@
             },
             play() {
                 this.isPlay ?
-                    this.$emit('pauseMusic').then(() => {
-                        this.isPlay = true;
-                    }) :
-                    this.$emit('playMusic').then(() => {
-                        this.isPlay = false;
-                    });
+                    this.$emit('pauseMusic') :
+                    this.$emit('playMusic');
             }
         },
         created() {
@@ -91,6 +94,7 @@
         },
         beforeRouteEnter(to, from, next) {
             next(vm => {
+                // console.log(vm.$router);
                 vm.originRouter = from.path;
             });
         }
@@ -98,6 +102,14 @@
 </script>
 
 <style scoped lang="less">
+    @keyframes picRotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
     .player .bg {
         position: absolute;
         top: -10vh;
@@ -157,13 +169,19 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
+        &>.play {
+            animation-play-state: running;
+        }
+        &>.pause {
+            animation-play-state: paused;
+        }
         & > div {
             width: 33vh;
             height: 33vh;
             border-radius: 50%;
             border: 4vh solid rgba(255, 255, 255, .1);
             box-sizing: border-box;
+            animation: picRotate 40s linear infinite;
 
             & > img {
                 display: block;
