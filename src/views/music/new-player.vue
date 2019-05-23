@@ -30,11 +30,11 @@
             <span class="end-time">{{duration}}</span>
         </div>
         <div class="bottom-control">
-            <span></span>
-            <span></span>
+            <span class="play-type"></span>
+            <span class="prev"></span>
             <span :class="[isPlay ? 'pause' : 'play']" @click="play"></span>
-            <span></span>
-            <span></span>
+            <span class="next"></span>
+            <span class="more"></span>
         </div>
     </div>
 </template>
@@ -246,10 +246,13 @@
     }
     .bottom-control {
         height: 6vh;
-        padding: 0 8vw;
+        padding: 0 2vw;
         display: flex;
         justify-content: space-around;
+        align-items: center;
         span {
+            width: 5vh;
+            height: 5vh;
             display: block;
             background-size: 100%;
         }
@@ -262,6 +265,18 @@
             width: 6vh;
             height: 6vh;
             background-image: url('../../assets/image/pause.png');
+        }
+        .prev {
+            background-image: url('../../assets/image/prev.png');
+        }
+        .next {
+            background-image: url('../../assets/image/next.png');
+        }
+        .play-type {
+            background-image: url('../../assets/image/play-type-cycle.png');
+        }
+        .more {
+            background-image: url('../../assets/image/more.png');
         }
     }
 </style>
