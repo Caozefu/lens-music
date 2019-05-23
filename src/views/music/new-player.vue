@@ -24,6 +24,7 @@
         <div class="music-time-control">
             <span class="start-time">{{getPlayTime}}</span>
             <div class="time-line">
+                <span class="line-has-gone" :style="changeLine"></span>
                 <span class="line"></span>
             </div>
             <span class="end-time">{{duration}}</span>
@@ -51,11 +52,8 @@
             return {
                 musicInfo: {},
                 duration: '',
-                originRouter: ''
-            }
-        },
-        watch: {
-            isPlay(val) {
+                originRouter: '',
+                lineDefaultStyle: 'width: 0'
             }
         },
         computed: {
@@ -63,13 +61,18 @@
                 let min = parseInt(this.playTime / 60);
                 let sec = min > 0 ? this.playTime - min * 60 : this.playTime;
                 return (min >= 10 ? min : '0' + min) + ':' + (sec >= 10 ? sec : '0' + sec);
+            },
+            changeLine() {
+                let allTime = this.musicInfo.duration / 1000;
+                let res = this.playTime * 65 / allTime;
+                return `width: ${res}vw`;
             }
         },
         methods: {
             getMusicDuration() {
                 let sec = parseInt(this.musicInfo.duration / 1000);
                 let min = parseInt(sec / 60) >= 10 ? parseInt(sec / 60) : '0' + parseInt(sec / 60);
-                this.duration = min + ':' + sec % 60;
+                this.duration = min + ':' + (sec % 60 > 10 ? sec % 60 : '0' + sec % 60);
             },
             back() {
                 this.$router.push(this.originRouter);
@@ -215,11 +218,29 @@
         justify-content: space-between;
         align-items: center;
         .time-line {
-            .line {
+            position: relative;
+            .line, .line-has-gone {
                 display: block;
                 height: 2px;
                 width: 65vw;
                 background-color: rgba(255, 255, 255, 0.3);
+            }
+            .line-has-gone {
+                background-color: #fff;
+                position: absolute;
+                left: 0;
+                transition: all 0.2s;
+            }
+            .line-has-gone:after {
+                content: '';
+                display: block;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background-color: #fff;
+                position: absolute;
+                right: -2px;
+                top: -2px;
             }
         }
     }
