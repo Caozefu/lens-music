@@ -41,7 +41,7 @@
 
                     if (end) {
                         clearInterval(timer);
-                        console.log(start, end);
+                        // console.log(start, end);
                     }
                 }, 3000);
 
@@ -54,7 +54,7 @@
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        // console.log(err);
                     })
             },
             logout() {
@@ -65,7 +65,7 @@
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        // console.log(err);
                     })
             },
             refreshStatus() {

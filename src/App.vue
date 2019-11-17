@@ -43,7 +43,8 @@
             pauseMusic() {
                 this.player.pause();
                 this.isPlay = false;
-            }
+            },
+
         },
         mounted() {
             this.player = this.$refs['global-player'];
@@ -55,21 +56,15 @@
             this.player.addEventListener('timeupdate', function () {
                 vm.playTime = parseInt(this.currentTime);
             })
-        }
+        },
     }
 </script>
 
-<style>
-    body, html {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-    }
-
+<style lang="less">
+    @import "//at.alicdn.com/t/font_1513870_jbhdwbzvbf.css";
+    @import "assets/css/common.less";
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: "PingFangSC-Regular, PingFang SC";
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;

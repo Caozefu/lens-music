@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/home/Home.vue'
-import Users from './views/user/Users'
+// import Home from './views/home/Home.vue'
+// import Users from './views/user/Users'
 import Player from './views/music/player'
 import newPlayer from './views/music/new-player'
 
@@ -14,12 +14,17 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: () => import('./views/home/index'),
+      children: [{
+        path: 'my',
+        name: 'my-home',
+        component: () => import('./views/home/myHome')
+      }]
     },
     {
-      path: '/user',
-      name: 'user',
-      component: Users
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/user/login')
     },
     {
       path: '/music',
